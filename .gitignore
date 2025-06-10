@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+multi-modal-env/
+
+# VS Code settings
+.vscode/
+
+# Terraform state
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# AWS credentials (if you ever have them locally)
+.aws/
+
+# Environment variables
+.env
+
+# Streamlit cache
+.streamlit/
+
+# macOS
+.DS_Store
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python distribution / packaging
+build/
+dist/
+*.egg-info/
