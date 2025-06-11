@@ -17,7 +17,7 @@ multi-modal-env/
 *.tfstate.*
 .terraform/
 
-# AWS credentials (if you ever have them locally)
+# AWS credentials
 .aws/
 
 # Environment variables
