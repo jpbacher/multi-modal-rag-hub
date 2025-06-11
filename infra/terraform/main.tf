@@ -11,3 +11,8 @@ resource "aws_s3_bucket" "documents" {
     Environment = "dev"
   }
 }
+
+resource "aws_s3_bucket_acl" "documents_acl" {
+  bucket = aws_s3_bucket.documents.id
+  acl    = "private"
+}
