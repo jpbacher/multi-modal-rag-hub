@@ -23,3 +23,26 @@ resource "aws_iam_role" "ingest_lambda_role" {
     }]
   })
 }
+
+resource "aws_iam_policy" "ingest_policy" {
+  name = "${var.project_name}-ingest-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["s3:GetObject", "s3:ListBucket"]
+        Resource = [
+          aws_s3_bucket.documents.arn,
+          "${aws_s3_bucket.documents.arn}/*"
+        ]
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"]
+        Resource = "*"
+      }
+    ]
+  })
+}
