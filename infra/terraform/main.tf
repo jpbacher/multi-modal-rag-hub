@@ -46,3 +46,8 @@ resource "aws_iam_policy" "ingest_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "ingest_attach" {
+  role       = aws_iam_role.ingest_lambda_role.name
+  policy_arn = aws_iam_policy.ingest_policy.arn
+}
