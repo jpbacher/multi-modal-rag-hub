@@ -51,3 +51,12 @@ resource "aws_iam_role_policy_attachment" "ingest_attach" {
   role       = aws_iam_role.ingest_lambda_role.name
   policy_arn = aws_iam_policy.ingest_policy.arn
 }
+
+resource "aws_ecr_repository" "ingest_repo" {
+  name = "${var.project_name}-ingest"  
+  image_tag_mutability = "MUTABLE"
+  tags = {
+    Environment = "dev"
+    Project     = var.project_name
+  }
+}
