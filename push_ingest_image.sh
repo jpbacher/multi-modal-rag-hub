@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+# Exit on any error
+set -e 
 
 set -o allexport
 source .env
