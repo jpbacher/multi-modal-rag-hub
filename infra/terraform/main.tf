@@ -64,8 +64,8 @@ resource "aws_ecr_repository" "ingest_repo" {
 resource "aws_lambda_function" "ingest" {
   function_name = "${var.project_name}-ingest"
   package_type  = "Image"  
-  image_uri     = "${aws_ecr_repository.ingest_repo.repository_url}:latest"
-  role = aws_iam_role.ingest_lambda_role.arn
+  image_uri     = "${aws_ecr_repository.ingest_repo.repository_url}:${var.image_tag}"
+  role          = aws_iam_role.ingest_lambda_role.arn
 
   timeout     = 30
   memory_size = 512
