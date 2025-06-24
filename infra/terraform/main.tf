@@ -61,6 +61,12 @@ resource "aws_ecr_repository" "ingest_repo" {
   }
 }
 
+resource "aws_lambda_function" "ingest" {
+  function_name = "${var.project_name}-ingest"
+  package_type  = "Image"  
+  image_uri     = "${aws_ecr_repository.ingest_repo.repository_url}:latest"
+}
+
 resource "aws_lambda_permission" "allow_s3" {
   statement_id  = "AllowS3Invoke"
   action        = "lambda:InvokeFunction"
