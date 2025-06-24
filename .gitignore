@@ -40,3 +40,5 @@ multi-modal-env/
 build/
 dist/
 *.egg-info/
+
+infra/terraform/.terraform.lock.hcl

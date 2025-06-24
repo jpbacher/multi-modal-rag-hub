@@ -4,31 +4,27 @@
 # Make sure it is executable: chmod +x push_ingest_image.sh
 
 # Exit on any error
-set -e 
+set -e
 
+# Load .env
 set -o allexport
 source .env
 set +o allexport
 
-
-# Authenticate Docker to ECR
+# Ensure Docker is talking to the right ECR
 aws ecr get-login-password \
-  --region us-east-1 \
-  | docker login \
-      --username AWS \
-      --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com
+  --region $AWS_REGION \
+| docker login \
+    --username AWS \
+    --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-# Build the container image
-docker build \
+# Build & push in one shot (amd64 only, Docker v2 manifest)
+docker buildx create --use
+docker buildx build \
   --platform linux/amd64 \
   -f Dockerfile \
-  -t ${PROJECT_NAME}-ingest .
+  -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest \
+  --push \
+  .
 
-# Tag the image for ECR repo
-docker tag ${PROJECT_NAME}-ingest:latest \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}-ingest:latest
-
-# Push the image to ECR
-docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT_NAME}-ingest:latest
-
-echo "Image pushed to ECR successfully."
+echo "Image pushed to ECR: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest"
