@@ -1,6 +1,5 @@
-boto3>=1.26.0            # to read from S3
-openai>=1.86.0           # for LLM calls
-langchain>=0.3.25        # chaining & prompts
-chromadb>=1.0.12         # vector store
-pypdf>=5.6.0             # PDF loading (if you ingest PDFs)
-python-dotenv>=1.1.0     # for reading .env in Lambda
+boto3>=1.26.0          # S3 client & AWS calls
+openai>=1.86.0         # LLM API
+langchain>=0.3.25      # prompt chains, common interfaces
+opensearch-py>=2.0.0   # talk to Amazon OpenSearch Service
+python-dotenv>=1.1.0   # load .env in Lambda
