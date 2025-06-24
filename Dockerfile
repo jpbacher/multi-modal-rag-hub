@@ -3,8 +3,8 @@ FROM public.ecr.aws/lambda/python:3.10
 
 # install dependencies
 RUN pip install --upgrade pip
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY lambda_requirements.txt .
+RUN pip install -r lambda_requirements.txt
 
 # copy the function code into container
 # var/task is the default directory for Lambda functions
