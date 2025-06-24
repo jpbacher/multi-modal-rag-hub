@@ -65,6 +65,21 @@ resource "aws_lambda_function" "ingest" {
   function_name = "${var.project_name}-ingest"
   package_type  = "Image"  
   image_uri     = "${aws_ecr_repository.ingest_repo.repository_url}:latest"
+  role = aws_iam_role.ingest_lambda_role.arn
+
+  environment {
+    variables = {
+      OPENAI_API_KEY = var.openai_api_key
+      S3_BUCKET      = aws_s3_bucket.documents.bucket
+    }
+  }
+
+  timeout     = 30
+  memory_size = 512
+
+  depends_on = [
+    aws_iam_role_policy_attachment.ingest_attach
+  ]
 }
 
 resource "aws_lambda_permission" "allow_s3" {
