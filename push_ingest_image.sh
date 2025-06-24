@@ -6,25 +6,21 @@
 # Exit on any error
 set -e
 
-# Load .env
+# Load .env variables
 set -o allexport
 source .env
 set +o allexport
 
-# Ensure Docker is talking to the right ECR
-aws ecr get-login-password \
-  --region $AWS_REGION \
-| docker login \
-    --username AWS \
-    --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+# Login to ECR
+aws ecr get-login-password --region $AWS_REGION | \
+  docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-# Build & push in one shot (amd64 only, Docker v2 manifest)
-docker buildx create --use
-docker buildx build \
-  --platform linux/amd64 \
-  -f Dockerfile \
-  -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest \
-  --push \
-  .
+# Single-platform build
+docker build \
+  -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest .
+
+# Push to ECR
+docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest
+
 
 echo "Image pushed to ECR: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest"
