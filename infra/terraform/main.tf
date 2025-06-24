@@ -70,7 +70,6 @@ resource "aws_lambda_function" "ingest" {
   environment {
     variables = {
       OPENAI_API_KEY = var.openai_api_key
-      S3_BUCKET      = aws_s3_bucket.documents.bucket
     }
   }
 
