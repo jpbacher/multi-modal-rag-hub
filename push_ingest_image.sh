@@ -15,6 +15,9 @@ set +o allexport
 aws ecr get-login-password --region $AWS_REGION | \
   docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
+# Disables the BuildKit builder (which always builds in OCI mode by default, even without buildx)
+export DOCKER_BUILDKIT=0
+
 # Single-platform build
 docker build \
   -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$PROJECT_NAME-ingest:latest .
