@@ -20,6 +20,7 @@ aws ecr get-login-password \
 
 # Build the container image
 docker build \
+  --platform linux/amd64 \
   -f Dockerfile \
   -t ${PROJECT_NAME}-ingest .
 
