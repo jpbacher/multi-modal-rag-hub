@@ -8,3 +8,8 @@ variable "project_name" {
   type        = string
   default     = "multi-modal-rag-hub"
 }
+
+variable "image_tag" {
+  description = "Tag of the container image to deploy"
+  type        = string
+}
